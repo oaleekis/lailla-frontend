@@ -24,11 +24,18 @@ export class CategoriesModalComponent {
 
   constructor(
     private dialogRef: MatDialogRef<CategoriesModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { name: string, mode: 'edit' | 'create' }
+    @Inject(MAT_DIALOG_DATA) public data: { name: string, mode: 'edit' | 'create', element: any }
   ) { }
+
+  ngOnInit() {
+    if (this.data.mode === 'edit') {
+      this.name = this.data.element?.name;
+    }
+  }
 
   save() {
     this.dialogRef.close({
+      id: this.data.element?.id,
       name: this.name,
     });
   }

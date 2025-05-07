@@ -13,14 +13,20 @@ import { CommonModule } from '@angular/common';
 export class ConfirmDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { title: string; message: string }
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; message: string, element: any }
   ) {}
 
   confirm() {
-    this.dialogRef.close(true);
+    this.dialogRef.close({
+      confirm: true,
+      element: this.data.element,
+    });
   }
 
   cancel() {
-    this.dialogRef.close(false);
+    this.dialogRef.close({
+      confirm: false,
+      element: this.data.element,
+    });
   }
 }

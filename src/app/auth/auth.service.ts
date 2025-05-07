@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 interface AuthResponseDto {
-  token: string;
+  accessToken: string;
   expiresIn: number;
   user: string;
 }
@@ -21,7 +20,7 @@ export class AuthService {
   login(email: string, password: string): Observable<AuthResponseDto> {
     return this.http.post<AuthResponseDto>(`${this.apiUrl}/auth/login`, { email, password }).pipe(
       tap((res) => {
-        this.setToken(res.token);
+        this.setToken(res.accessToken);
         this.setUserId(res.user);
       }),
       catchError((err) => throwError(() => err))
@@ -41,7 +40,11 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    if (!token) {
+      return false;
+    }
+    return true;
   }
 
   getToken(): string | null {
