@@ -7,8 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
-import { CategoriesModalComponent } from '../../shared/categories-modal/categories-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CategoriesModalComponent } from '../../shared/categories-modal/categories-modal.component';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+
 
 @Component({
   selector: 'app-categories',
@@ -50,6 +52,23 @@ export class CategoriesComponent {
       if (result) {
         console.log(result);
 
+      }
+    });
+  }
+
+  openConfirm() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Confirmar Exclusão',
+        message: 'Tem certeza de que deseja excluir este item?'
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        console.log('Confirmed');
+      } else {
+        console.log('Cancelled');
       }
     });
   }

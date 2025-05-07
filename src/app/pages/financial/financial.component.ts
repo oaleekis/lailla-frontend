@@ -10,9 +10,11 @@ import { MatIcon } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
-import { TransactionModalComponent } from '../../shared/transaction-modal/transaction-modal.component';
-import { MatDialog } from '@angular/material/dialog';
 import { MY_DATE_FORMATS } from '../../shared/constants/date-formats';
+
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { TransactionModalComponent } from '../../shared/transaction-modal/transaction-modal.component';
 
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
@@ -65,6 +67,23 @@ export class FinancialComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log(result);
+      }
+    });
+  }
+
+  openConfirm() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+      title: 'Confirmar Exclusão',
+      message: 'Tem certeza de que deseja excluir este item?'
+      },
+    });
+  
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        console.log('Confirmed');
+      } else {
+        console.log('Cancelled');
       }
     });
   }
