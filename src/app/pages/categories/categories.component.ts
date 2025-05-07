@@ -40,9 +40,9 @@ export class CategoriesComponent {
     private dialog: MatDialog,
   ) { }
 
-  openCategoryModal() {
+  openCategoryModal(mode: 'edit' | 'create', element?: any) {
     const dialogRef = this.dialog.open(CategoriesModalComponent, {
-      data: { name: '' },
+      data: { name: '', mode, element },
       width: '800px',
     });
 

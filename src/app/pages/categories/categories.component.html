@@ -1,6 +1,6 @@
 <div class="categorie-header">
     <span class="button-group">
-        <button mat-flat-button color="primary" (click)="openCategoryModal()">Adicionar Categoria</button>
+        <button mat-flat-button color="primary" (click)="openCategoryModal('create')">Adicionar Categoria</button>
     </span>
 </div>
 
@@ -19,7 +19,7 @@
     <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef> </mat-header-cell>
         <mat-cell *matCellDef="let element">
-            <button mat-icon-button>
+            <button mat-icon-button (click)="openCategoryModal('edit', element)">
                 <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button>

@@ -24,7 +24,7 @@ export class CategoriesModalComponent {
 
   constructor(
     private dialogRef: MatDialogRef<CategoriesModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { name: string }
+    @Inject(MAT_DIALOG_DATA) public data: { name: string, mode: 'edit' | 'create' }
   ) { }
 
   save() {

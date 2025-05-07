@@ -56,9 +56,9 @@ export class FinancialComponent {
     private dialog: MatDialog,
   ) { }
 
-  openTransactionModal(type: 'income' | 'expense') {
+  openTransactionModal(type: 'income' | 'expense', mode: 'edit' | 'create', element?: any) {
     const dialogRef = this.dialog.open(TransactionModalComponent, {
-      data: { type },
+      data: { type, mode, element },
       width: '800px',
     });
 

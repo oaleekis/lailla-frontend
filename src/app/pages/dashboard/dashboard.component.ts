@@ -28,7 +28,7 @@ export class DashboardComponent {
 
   openTransactionModal(type: string) {
     const dialogRef = this.dialog.open(TransactionModalComponent, {
-      data: { type: type },
+      data: { type: type, mode: 'create' },
       width: '800px',
     });
 

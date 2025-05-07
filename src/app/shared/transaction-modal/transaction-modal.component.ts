@@ -47,7 +47,7 @@ export class TransactionModalComponent {
 
   constructor(
     private dialogRef: MatDialogRef<TransactionModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { type: 'income' | 'expense' }
+    @Inject(MAT_DIALOG_DATA) public data: { type: 'income' | 'expense', mode: 'edit' | 'create' }
   ) { }
 
   save() {
