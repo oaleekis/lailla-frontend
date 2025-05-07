@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { TransactionModalComponent } from '../../shared/transaction-modal/transaction-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -20,8 +22,21 @@ export class DashboardComponent {
   totalMes = this.totalReceitas - this.totalDespesas;
 
 
-  addFinancial(type: string) {
-    console.log(`Adicionando ${type}`);
+  constructor(
+    private dialog: MatDialog,
+  ) { }
+
+  openTransactionModal(type: string) {
+    const dialogRef = this.dialog.open(TransactionModalComponent, {
+      data: { type: type },
+      width: '800px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+
+      }
+    });
   }
-  
 }
