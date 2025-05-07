@@ -5,6 +5,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -22,16 +24,35 @@ import { RouterLink } from '@angular/router';
 export class LoginComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+
+  ) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
 
+  ngOnInit() {
+    this.authService.logout();
+  }
+
   onSubmit() {
     if (this.form.valid) {
-      console.log('Login data:', this.form.value);
+      const { email, password } = this.form.value;
+      this.authService.login(email, password).subscribe(
+       {
+          next: () => {
+            this.router.navigate(['/dashboard']);
+          },
+          error: (error) => {
+            console.error('Login failed', error);
+          }
+       }
+      );
     }
   }
 }

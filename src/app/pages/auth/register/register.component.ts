@@ -5,6 +5,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +24,11 @@ import { RouterLink } from '@angular/router';
 export class RegisterComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -35,11 +41,21 @@ export class RegisterComponent {
     if (this.form.valid) {
       const { name, email, password, confirmPassword } = this.form.value;
       if (password !== confirmPassword) {
-        alert('Passwords do not match.');
+          this.form.get('confirmPassword')?.setErrors({ mismatch: true });
         return;
       }
 
-      console.log('Registration data:', this.form.value);
+      this.authService.register(name, email, password).subscribe(
+        {
+          next: () => {
+            alert('Conta criada com sucesso!');
+            this.router.navigate(['/auth/login']);
+          },
+          error: (error) => {
+            console.error('Error ao criar conta', error);
+          }
+        });
+    
     }
   }
 }
