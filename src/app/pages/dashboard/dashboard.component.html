@@ -1,0 +1,24 @@
+<div class="dashboard-cards">
+    <mat-card class="card total-mes">
+        <mat-card-title>Total do Mês</mat-card-title>
+        <mat-card-content>
+            <h2>R$ {{ totalMes | number:'1.2-2' }}</h2>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card receitas">
+        <mat-card-title>Total de Receitas</mat-card-title>
+        <mat-card-content>
+            <h2>R$ {{ totalReceitas | number:'1.2-2' }}</h2>
+        </mat-card-content>
+        <button mat-raised-button color="primary" (click)="addFinancial('income')">Adicionar Receita</button>
+    </mat-card>
+
+    <mat-card class="card despesas">
+        <mat-card-title>Total de Despesas</mat-card-title>
+        <mat-card-content>
+            <h2>R$ {{ totalDespesas | number:'1.2-2' }}</h2>
+        </mat-card-content>
+        <button mat-raised-button color="warn" (click)="addFinancial('expense')">Adicionar Despesa</button>
+    </mat-card>
+</div>

@@ -1,0 +1,22 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
+    <h2>Entrar</h2>
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Senha</mat-label>
+        <input matInput formControlName="password" type="password" required>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="full-width" type="submit">
+        Entrar
+    </button>
+
+    <p class="text-link">
+        Não possui uma conta?
+        <a routerLink="/register">Clique aqui</a>
+    </p>
+</form>

@@ -1,0 +1,21 @@
+.finance-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+    justify-content: space-between;
+}
+
+mat-form-field {
+    min-width: 200px;
+}
+
+.button-group {
+    display: flex;
+    gap: 12px;
+}
+
+.filter-group {
+    display: flex;
+    gap: 12px;
+}

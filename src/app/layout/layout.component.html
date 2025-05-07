@@ -1,0 +1,34 @@
+<mat-toolbar class="mat-elevation-z3">
+    <button mati-icon-button (click)="collapsed.set(!collapsed())">
+        <mat-icon>menu</mat-icon>
+    </button>
+</mat-toolbar>
+<mat-sidenav-container>
+    <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
+        <div class="sidenav">
+            <div class="sidenav-itens">
+                <mat-nav-list>
+                    <a mat-list-item class="menu-item" *ngFor="let item of menuItems()" [routerLink]="item.route"
+                        routerLinkActive="selected-menu-item" #rla="routerLinkActive" [activated]="rla.isActive"
+                        class="menu-item">
+                        <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'"
+                            matListItemIcon>{{item.icon}}</mat-icon>
+                        <span matListItemTitle>{{item.label}}</span>
+                    </a>
+                </mat-nav-list>
+            </div>
+            <div class="sidenav-footer">
+                <mat-divider></mat-divider>
+                <mat-nav-list>
+                    <a mat-list-item class="menu-item" [routerLink]="'/login'">
+                        <mat-icon matListItemIcon>logout</mat-icon>
+                        <span matListItemTitle>Sair</span>
+                    </a>
+                </mat-nav-list>
+            </div>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content class="content" [style.marginLeft]="sidenavWidth()">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
