@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
+import { CategoriesModalComponent } from '../../shared/categories-modal/categories-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-categories',
@@ -23,6 +25,7 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
+
 export class CategoriesComponent {
   selectedDate = '';
   selectedCategory = '';
@@ -32,4 +35,22 @@ export class CategoriesComponent {
     { name: 'Alimentação', createdAt: '2025-05-01' },
     { name: 'Transporte', createdAt: '2025-05-03' },
   ];
+
+  constructor(
+    private dialog: MatDialog,
+  ) { }
+
+  openCategoryModal() {
+    const dialogRef = this.dialog.open(CategoriesModalComponent, {
+      data: { name: '' },
+      width: '800px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+
+      }
+    });
+  }
 }

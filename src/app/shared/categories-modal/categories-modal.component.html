@@ -1,0 +1,13 @@
+<h2>Adicionar Categoria</h2>
+
+<main>
+    <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput [(ngModel)]="name" />
+    </mat-form-field>
+    
+    <div style="margin-top: 16px; display: flex; justify-content: flex-end; gap: 8px">
+        <button mat-button (click)="cancel()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="save()">Salvar</button>
+    </div>
+</main>

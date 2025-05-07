@@ -2,7 +2,9 @@
     <div class="filter-group">
         <mat-form-field appearance="outline">
             <mat-label>Filtrar por Data</mat-label>
-            <input matInput [(ngModel)]="selectedDate" type="date">
+            <input matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -16,8 +18,8 @@
     </div>
 
     <span class="button-group">
-        <button mat-flat-button color="primary">Adicionar Receita</button>
-        <button mat-flat-button color="warn">Adicionar Despesa</button>
+        <button mat-flat-button color="primary" (click)="openTransactionModal('income')">Adicionar Receita</button>
+        <button mat-flat-button color="warn" (click)="openTransactionModal('expense')">Adicionar Despesa</button>
     </span>
 </div>
 

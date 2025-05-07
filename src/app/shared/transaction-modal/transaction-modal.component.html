@@ -1,0 +1,33 @@
+<h2>Adicionar {{ data.type === 'income' ? 'Receita' : 'Despesa' }}</h2>
+
+<main>
+    <mat-form-field appearance="outline">
+        <mat-label>Data</mat-label>
+        <input matInput [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Categoria</mat-label>
+        <mat-select>
+            <mat-option value="one">Categoria 1</mat-option>
+            <mat-option value="two">Categoria 2</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Valor</mat-label>
+        <input matInput type="number" [(ngModel)]="amount" />
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Titulo</mat-label>
+        <input matInput [(ngModel)]="title" />
+    </mat-form-field>
+
+    <div style="margin-top: 16px; display: flex; justify-content: flex-end; gap: 8px">
+        <button mat-button (click)="cancel()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="save()">Salvar</button>
+    </div>
+</main>
