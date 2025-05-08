@@ -70,8 +70,8 @@ export class TransactionModalComponent {
     }
   }
 
-  fetchCategories() {
-    this.categoriesService.getAll().subscribe((data) => {
+  fetchCategories(page: number = 1, pageSize: number = 50) {
+    this.categoriesService.getAll(Number(page), Number(pageSize)).subscribe((data) => {
       this.categories = data.items.map((item: any) => {
         return {
           id: item.id,

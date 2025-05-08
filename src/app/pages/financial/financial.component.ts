@@ -12,7 +12,6 @@ import { MatMomentDateModule, MomentDateAdapter } from '@angular/material-moment
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { MY_DATE_FORMATS } from '../../shared/constants/date-formats';
 import { FinancialService } from '../../services/financial.service';
-import { CategoriesService } from '../../services/categories.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { TransactionModalComponent } from '../../shared/transaction-modal/transaction-modal.component';
@@ -51,7 +50,6 @@ import { SnackBarService } from '../../services/snack-bar.service';
 export class FinancialComponent {
   selectedDate = '';
   selectedCategory = '';
-  categories: any[] = []; 
 
   displayedColumns: string[] = ['type', 'date', 'title', 'category', 'amount', 'actions'];
   dataSource: any[] = [];
@@ -63,13 +61,11 @@ export class FinancialComponent {
   constructor(
     private dialog: MatDialog,
     private financialService: FinancialService,
-    private categoriesService: CategoriesService,
     private snackBarService: SnackBarService,
   ) { }
 
   ngOnInit(){
     this.fetchFinancial();
-    this.fetchCategories();
   }
   
   fetchFinancial(page: number = 1, pageSize: number = 5) {
@@ -83,19 +79,6 @@ export class FinancialComponent {
           amount: Number(item.amount),
           id: item.id,
           type: item.type,
-          createdAt: new Date(item.createdAt).toLocaleDateString('pt-BR')
-        };
-      });
-    });
-  }
-  
-
-  fetchCategories() {
-    this.categoriesService.getAll().subscribe((data) => {
-      this.categories = data.items.map((item: any) => {
-        return {
-          id: item.id,
-          name: item.name,
           createdAt: new Date(item.createdAt).toLocaleDateString('pt-BR')
         };
       });
