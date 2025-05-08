@@ -29,6 +29,13 @@ export class HttpService<T> {
     );
   }
 
+  get<R = T>(path: string): Observable<R> {
+    return this.http.get<R>(`${environment.apiUrl}/${this.endpoint}/${path}`).pipe(
+      tap(response => {}),
+      catchError(error => this.handleError(error))
+    );
+  }
+
   add(data: any): Observable<T> {
     return this.http.post<T>(`${environment.apiUrl}/${this.endpoint}`, data).pipe(
       tap(response => {}),

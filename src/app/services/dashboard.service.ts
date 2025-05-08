@@ -10,4 +10,16 @@ export class DashboardService extends HttpService<any> {
   constructor(http: HttpClient) {
     super(http, 'financial');
   }
+
+  getTotalBalanceLastMonth() {
+    return this.get<number>('total');
+  }
+  
+  getTotalIncomesLastMonth() {
+    return this.get<number>('incomes');
+  }
+  
+  getTotalExpensesLastMonth() {
+    return this.get<number>('expenses');
+  }
 }

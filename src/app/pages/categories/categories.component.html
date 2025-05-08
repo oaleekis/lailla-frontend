@@ -20,10 +20,10 @@
         <mat-header-cell *matHeaderCellDef> </mat-header-cell>
         <mat-cell *matCellDef="let element">
             <button mat-icon-button (click)="openCategoryModal('edit', element)">
-                <mat-icon>edit</mat-icon>
+                <mat-icon class="green">edit</mat-icon>
             </button>
             <button mat-icon-button (click)="openConfirm(element)">
-                <mat-icon>delete</mat-icon>
+                <mat-icon class="red">delete</mat-icon>
             </button>
         </mat-cell>
     </ng-container>
