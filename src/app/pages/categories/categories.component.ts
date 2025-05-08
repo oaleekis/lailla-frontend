@@ -61,6 +61,7 @@ export class CategoriesComponent {
         return {
           id: item.id,
           name: item.name,
+          userId: item.userId,
           createdAt: new Date(item.createdAt).toLocaleDateString('pt-BR')
         };
       });

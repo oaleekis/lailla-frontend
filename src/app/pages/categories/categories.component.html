@@ -19,10 +19,10 @@
     <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef> </mat-header-cell>
         <mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="openCategoryModal('edit', element)">
+            <button *ngIf="element.userId" mat-icon-button (click)="openCategoryModal('edit', element)">
                 <mat-icon class="green">edit</mat-icon>
             </button>
-            <button mat-icon-button (click)="openConfirm(element)">
+            <button *ngIf="element.userId" mat-icon-button (click)="openConfirm(element)">
                 <mat-icon class="red">delete</mat-icon>
             </button>
         </mat-cell>
