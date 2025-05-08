@@ -1,35 +1,51 @@
 <h2>{{ data.mode === 'edit' ? 'Editar' : 'Adicionar' }} {{ data.type === 'income' ? 'Receita' : 'Despesa' }}</h2>
 
 <main>
-    <mat-form-field appearance="outline">
-        <mat-label>Data</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="date">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+    <form #form="ngForm" (ngSubmit)="save(form)">
+        <mat-form-field appearance="outline">
+            <mat-label>Data</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="date" name="date" required #dateInput="ngModel">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="dateInput.invalid && dateInput.touched">
+                A data é obrigatória.
+            </mat-error>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Categoria</mat-label>
-        <mat-select [(ngModel)]="selectedCategory">
-          <mat-option *ngFor="let category of categories" [value]="category.id">
-            {{ category.name }}
-          </mat-option>
-        </mat-select>
+        <mat-form-field appearance="outline">
+            <mat-label>Categoria</mat-label>
+            <mat-select [(ngModel)]="selectedCategory" name="category" required #categoryInput="ngModel">
+              <mat-option *ngFor="let category of categories" [value]="category.id">
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="categoryInput.invalid && categoryInput.touched">
+                A categoria é obrigatória.
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Valor</mat-label>
+          <input matInput type="text" [(ngModel)]="amount" name="amount" required minlength="1" #amountInput="ngModel" (keypress)="allowOnlyNumbers($event)"/>
+          <mat-error *ngIf="amountInput.touched && !amount">
+            O valor é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="amountInput.value && isInvalidAmount(amountInput.value)">
+            O valor deve ser um número válido e maior que zero.
+          </mat-error>
       </mat-form-field>
-      
 
-    <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Valor</mat-label>
-        <input matInput type="number" [(ngModel)]="amount" />
-    </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Título</mat-label>
+            <input matInput [(ngModel)]="title" name="title" required minlength="3" #titleInput="ngModel"/>
+            <mat-error *ngIf="titleInput.invalid && titleInput.touched">
+                O título deve ter pelo menos 3 caracteres.
+            </mat-error>
+        </mat-form-field>
 
-    <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Titulo</mat-label>
-        <input matInput [(ngModel)]="title" />
-    </mat-form-field>
-
-    <div style="margin-top: 16px; display: flex; justify-content: flex-end; gap: 8px">
-        <button mat-button (click)="cancel()">Cancelar</button>
-        <button mat-raised-button color="primary" (click)="save()">Salvar</button>
-    </div>
+        <div style="margin-top: 16px; display: flex; justify-content: flex-end; gap: 8px">
+            <button mat-button (click)="cancel()">Cancelar</button>
+            <button mat-raised-button color="primary" type="submit">Salvar</button>
+        </div>
+    </form>
 </main>

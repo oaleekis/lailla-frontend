@@ -3,7 +3,10 @@
 <main>
     <mat-form-field class="full-width" appearance="outline">
         <mat-label>Nome</mat-label>
-        <input matInput [(ngModel)]="name" />
+        <input matInput [(ngModel)]="name" required minlength="3"  #nameInput="ngModel"/>
+        <mat-error *ngIf="nameInput.invalid && nameInput.touched">
+            O nome deve ter pelo menos 3 caracteres.
+        </mat-error>
     </mat-form-field>
 
     <div style="margin-top: 16px; display: flex; justify-content: flex-end; gap: 8px">

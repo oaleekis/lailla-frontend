@@ -41,9 +41,9 @@ registerLocaleData(localePt);
 })
 
 export class TransactionModalComponent {
-  amount: number = 0;
+  amount: string = '';
   title: string = '';
-  categories: any[] = []
+  categories: any[] = [];
   selectedCategory: string = '';
   date: any;
 
@@ -53,7 +53,7 @@ export class TransactionModalComponent {
     @Inject(MAT_DIALOG_DATA) public data: { type: 'income' | 'expense', mode: 'edit' | 'create', element: any }
   ) { }
 
-  ngOnInit(){
+  ngOnInit() {
     this.fetchCategories();
 
     if (this.data.mode === 'edit') {
@@ -74,10 +74,18 @@ export class TransactionModalComponent {
           createdAt: new Date(item.createdAt).toLocaleDateString('pt-BR')
         };
       });
+
+      if (!this.selectedCategory && this.categories.length > 0) {
+        this.selectedCategory = this.categories[0].id;
+      }
     });
   }
 
-  save() {
+  save(form: any) {
+    this.markAllFieldsAsTouched(form);
+    if (this.isFormInvalid()) {
+      return;
+    }
     this.dialogRef.close({
       id: this.data.element?.id,
       type: this.data.type.toLocaleUpperCase(),
@@ -86,6 +94,37 @@ export class TransactionModalComponent {
       categoryId: this.selectedCategory,
       date: this.date.format('YYYY-MM-DD')
     });
+  }
+
+  markAllFieldsAsTouched(form: any): void {
+    Object.keys(form.controls).forEach(field => {
+      const control = form.controls[field];
+      control.markAsTouched(); 
+    });
+  }
+
+  isFormInvalid(): boolean {
+    console.log({
+      date: this.date,
+      selectedCategory: this.selectedCategory,
+      amount: this.amount,
+      title: this.title,
+      titleLength: this.title.length
+    });
+    
+    return !this.date || !this.selectedCategory || !this.amount || this.title.length < 3;
+  }
+
+  isInvalidAmount(value: any): boolean {
+    const num = parseFloat(value);
+    return isNaN(num) || num <= 0;
+  }
+
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const charCode = event.key.charCodeAt(0);
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
   }
 
   cancel() {

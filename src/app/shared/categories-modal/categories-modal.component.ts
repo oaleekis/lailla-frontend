@@ -34,10 +34,17 @@ export class CategoriesModalComponent {
   }
 
   save() {
+    if (this.isFormInvalid()) {
+      return;
+    }
     this.dialogRef.close({
       id: this.data.element?.id,
       name: this.name,
     });
+  }
+
+  isFormInvalid(): boolean {
+    return this.name.trim() === '';
   }
 
   cancel() {

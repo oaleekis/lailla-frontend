@@ -52,7 +52,7 @@
     <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef> </mat-header-cell>
         <mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="openTransactionModal('income', 'edit', element)">
+            <button mat-icon-button (click)="openTransactionModal(element.type,'edit', element)">
                 <mat-icon class="green">edit</mat-icon>
             </button>
             <button mat-icon-button (click)="openConfirm(element)">
@@ -64,3 +64,8 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
+<ng-container>
+    <span class="no-data" *ngIf="dataSource.length === 0">
+        Nenhum registro encontrado
+    </span>
+</ng-container>

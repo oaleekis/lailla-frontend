@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 interface AuthResponseDto {
   accessToken: string;
   expiresIn: number;
-  user: string;
+  user: { id: string };
 }
 
 @Injectable({
@@ -21,7 +21,7 @@ export class AuthService {
     return this.http.post<AuthResponseDto>(`${this.apiUrl}/auth/login`, { email, password }).pipe(
       tap((res) => {
         this.setToken(res.accessToken);
-        this.setUserId(res.user);
+        this.setUserId(res.user.id);
       }),
       catchError((err) => throwError(() => err))
     );
