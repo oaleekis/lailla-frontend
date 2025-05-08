@@ -31,6 +31,11 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
+<div class="paginator" *ngIf="dataSource.length > 0">
+    <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25]"
+        (page)="onPageChange($event)">
+    </mat-paginator>
+</div>
 <ng-container>
     <span class="no-data" *ngIf="dataSource.length === 0">
         Nenhum registro encontrado

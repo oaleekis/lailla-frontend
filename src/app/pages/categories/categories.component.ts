@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CategoriesModalComponent } from '../../shared/categories-modal/categories-modal.component';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { CategoriesService } from '../../services/categories.service';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 @Component({
@@ -23,7 +24,8 @@ import { CategoriesService } from '../../services/categories.service';
     MatInputModule,
     MatSelectModule,
     FormsModule,
-    MatIcon
+    MatIcon,
+    MatPaginatorModule
   ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
@@ -36,6 +38,11 @@ export class CategoriesComponent {
   displayedColumns: string[] = ['name', 'createdAt', 'actions'];
   dataSource: any[] = [];
 
+  totalItems = 0;
+  pageSize = 5;
+  pageIndex = 0;
+
+
   constructor(
     private dialog: MatDialog,
     private categoriesService: CategoriesService
@@ -45,8 +52,9 @@ export class CategoriesComponent {
     this.fetchCategories();
   }
 
-  fetchCategories() {
-    this.categoriesService.getAll().subscribe((data) => {
+  fetchCategories(page: number = 1, pageSize: number = 5) {
+    this.categoriesService.getAll(Number(page), Number(pageSize)).subscribe((data) => {
+      this.totalItems = data.totalItems;
       this.dataSource = data.items.map((item: any) => {
         return {
           id: item.id,
@@ -97,5 +105,11 @@ export class CategoriesComponent {
         });
       }
     });
+  }
+
+  onPageChange(event: any) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.fetchCategories(this.pageIndex + 1, this.pageSize);
   }
 }

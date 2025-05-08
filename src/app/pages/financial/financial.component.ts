@@ -19,6 +19,7 @@ import { TransactionModalComponent } from '../../shared/transaction-modal/transa
 import { BrlPipe } from '../../shared/pipes/brl.pipe';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import {MatPaginatorModule} from '@angular/material/paginator';
 registerLocaleData(localePt);
 
 @Component({
@@ -40,7 +41,8 @@ registerLocaleData(localePt);
     MatIcon,
     MatDatepickerModule,
     MatMomentDateModule,
-    BrlPipe
+    BrlPipe,
+    MatPaginatorModule
   ],
   templateUrl: './financial.component.html',
   styleUrl: './financial.component.scss'
@@ -50,8 +52,12 @@ export class FinancialComponent {
   selectedCategory = '';
   categories: any[] = []; 
 
-  displayedColumns: string[] = ['type', 'date', 'title', 'amount', 'actions'];
+  displayedColumns: string[] = ['type', 'date', 'title', 'category', 'amount', 'actions'];
   dataSource: any[] = [];
+
+  totalItems = 0;
+  pageSize = 5;
+  pageIndex = 0;
 
   constructor(
     private dialog: MatDialog,
@@ -64,14 +70,15 @@ export class FinancialComponent {
     this.fetchCategories();
   }
   
-  fetchFinancial() {
-    this.financialService.getAll().subscribe((data) => {
+  fetchFinancial(page: number = 1, pageSize: number = 5) {
+    this.financialService.getAll(Number(page), Number(pageSize)).subscribe((data) => {
+      this.totalItems = data.totalItems;
       this.dataSource = data.items.map((item: any) => {
         return {
           date: new Date(item.date).toLocaleDateString('pt-BR'),
-          category: item.categoryId, // Se necessário, ajustar categoria
+          categoryName: item.categoryName,
           title: item.title,
-          amount: Number(item.amount), // Convertendo para número
+          amount: Number(item.amount),
           id: item.id,
           type: item.type,
           createdAt: new Date(item.createdAt).toLocaleDateString('pt-BR')
@@ -132,5 +139,11 @@ export class FinancialComponent {
         });
       }
     });
+  }
+
+  onPageChange(event: any) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.fetchFinancial(this.pageIndex + 1, this.pageSize);
   }
 }

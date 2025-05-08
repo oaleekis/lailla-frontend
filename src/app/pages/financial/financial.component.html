@@ -10,28 +10,30 @@
         <mat-form-field appearance="outline">
             <mat-label>Categoria</mat-label>
             <mat-select [(ngModel)]="selectedCategory">
-              <mat-option *ngFor="let category of categories" [value]="category.id">
-                {{ category.name }}
-              </mat-option>
+                <mat-option *ngFor="let category of categories" [value]="category.id">
+                    {{ category.name }}
+                </mat-option>
             </mat-select>
-          </mat-form-field>
+        </mat-form-field>
     </div>
 
     <span class="button-group">
-        <button mat-flat-button color="primary" (click)="openTransactionModal('income', 'create')">Adicionar Receita</button>
-        <button mat-flat-button color="warn" (click)="openTransactionModal('expense', 'create')">Adicionar Despesa</button>
+        <button mat-flat-button color="primary" (click)="openTransactionModal('income', 'create')">Adicionar
+            Receita</button>
+        <button mat-flat-button color="warn" (click)="openTransactionModal('expense', 'create')">Adicionar
+            Despesa</button>
     </span>
 </div>
 
-<mat-table [dataSource]="dataSource"  class="mat-elevation-z8 demo-table">
-    
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+
     <ng-container matColumnDef="type">
         <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
         <mat-cell *matCellDef="let element">
-            <span  [ngClass]="element.type === 'INCOME' ? 'green' : element.type === 'EXPENSE' ? 'red' : ''">
-            {{ element.type === 'INCOME' ? 'Receita' : element.type === 'EXPENSE' ? 'Despesa' : '' }}
+            <span [ngClass]="element.type === 'INCOME' ? 'green' : element.type === 'EXPENSE' ? 'red' : ''">
+                {{ element.type === 'INCOME' ? 'Receita' : element.type === 'EXPENSE' ? 'Despesa' : '' }}
             </span>
-          </mat-cell>
+        </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="date">
@@ -42,6 +44,11 @@
     <ng-container matColumnDef="title">
         <mat-header-cell *matHeaderCellDef> Titulo </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.title }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+        <mat-header-cell *matHeaderCellDef> Categoria </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.categoryName }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="amount">
@@ -64,6 +71,11 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
+<div class="paginator" *ngIf="dataSource.length > 0">
+    <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25]"
+        (page)="onPageChange($event)">
+    </mat-paginator>
+</div>
 <ng-container>
     <span class="no-data" *ngIf="dataSource.length === 0">
         Nenhum registro encontrado
