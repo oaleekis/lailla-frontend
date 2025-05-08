@@ -7,3 +7,23 @@ form {
     display: flex;
     flex-direction: column;
 }
+.category-select {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+}
+
+.category-select__input {
+    flex: 1;
+
+    mat-form-field {
+        width: 100%;
+    }
+}
+
+button {
+    flex-shrink: 0;
+    width: fit-content;
+    margin-bottom: 20px;
+}

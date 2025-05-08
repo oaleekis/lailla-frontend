@@ -1,5 +1,5 @@
 import { Component, Inject, ChangeDetectionStrategy, LOCALE_ID } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,11 +11,13 @@ import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/materia
 import { MatSelectModule } from '@angular/material/select';
 import { MY_DATE_FORMATS } from '../constants/date-formats';
 import { CategoriesService } from '../../services/categories.service';
-
+import { MatIcon } from '@angular/material/icon';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import moment from 'moment';
 registerLocaleData(localePt);
+import { CategoriesModalComponent } from '../categories-modal/categories-modal.component';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: 'app-transaction-modal',
@@ -28,6 +30,7 @@ registerLocaleData(localePt);
     MatDatepickerModule,
     MatMomentDateModule,
     MatSelectModule,
+    MatIcon
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
@@ -50,6 +53,8 @@ export class TransactionModalComponent {
   constructor(
     private dialogRef: MatDialogRef<TransactionModalComponent>,
     private categoriesService: CategoriesService,
+    private dialog: MatDialog,
+    private snackBarService: SnackBarService,
     @Inject(MAT_DIALOG_DATA) public data: { type: 'income' | 'expense', mode: 'edit' | 'create', element: any }
   ) { }
 
@@ -121,5 +126,21 @@ export class TransactionModalComponent {
 
   cancel() {
     this.dialogRef.close();
+  }
+
+  openNewCategoryDialog(mode = 'create') {
+      const dialogRef = this.dialog.open(CategoriesModalComponent, {
+        data: { name: '', mode },
+        width: '800px',
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+            this.categoriesService.add(result).subscribe(() => {
+              this.snackBarService.openSnackBar('Categoria criada com sucesso!', 'fechar');
+              this.fetchCategories();
+            });
+        }
+      });
   }
 }

@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
 import { Router } from '@angular/router';
+import { SnackBarService } from '../../../services/snack-bar.service';
 
 @Component({
   selector: 'app-register',
@@ -27,7 +28,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackBar: SnackBarService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -48,6 +50,7 @@ export class RegisterComponent {
       this.authService.register(name, email, password).subscribe(
         {
           next: () => {
+            this.snackBar.openSnackBar('Conta criada com sucesso, faça login para continuar!', 'fechar');
             this.router.navigate(['/auth/login']);
           },
           error: (error) => {

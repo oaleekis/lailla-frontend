@@ -12,18 +12,26 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Categoria</mat-label>
-            <mat-select [(ngModel)]="selectedCategory" name="category" required #categoryInput="ngModel">
-              <mat-option *ngFor="let category of categories" [value]="category.id">
-                {{ category.name }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="categoryInput.invalid && categoryInput.touched">
+        <div class="category-select">
+          <div class="category-select__input">
+            <mat-form-field appearance="outline">
+              <mat-label>Categoria</mat-label>
+              <mat-select [(ngModel)]="selectedCategory" name="category" required #categoryInput="ngModel">
+                <mat-option *ngFor="let category of categories" [value]="category.id">
+                  {{ category.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="categoryInput.invalid && categoryInput.touched">
                 A categoria é obrigatória.
-            </mat-error>
-        </mat-form-field>
-
+              </mat-error>
+            </mat-form-field>
+          </div>
+            <button mat-raised-button color="primary" type="button" (click)="openNewCategoryDialog()">
+              <mat-icon>add</mat-icon>
+              Nova
+            </button>
+        </div>
+          
         <mat-form-field class="full-width" appearance="outline">
           <mat-label>Valor</mat-label>
           <input matInput type="text" [(ngModel)]="amount" name="amount" required minlength="1" #amountInput="ngModel" (keypress)="allowOnlyNumbers($event)"/>
