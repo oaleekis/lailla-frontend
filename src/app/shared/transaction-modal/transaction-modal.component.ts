@@ -103,15 +103,7 @@ export class TransactionModalComponent {
     });
   }
 
-  isFormInvalid(): boolean {
-    console.log({
-      date: this.date,
-      selectedCategory: this.selectedCategory,
-      amount: this.amount,
-      title: this.title,
-      titleLength: this.title.length
-    });
-    
+  isFormInvalid(): boolean {    
     return !this.date || !this.selectedCategory || !this.amount || this.title.length < 3;
   }
 

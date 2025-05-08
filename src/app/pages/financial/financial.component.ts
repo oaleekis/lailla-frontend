@@ -66,7 +66,6 @@ export class FinancialComponent {
   
   fetchFinancial() {
     this.financialService.getAll().subscribe((data) => {
-      console.log(data);
       this.dataSource = data.items.map((item: any) => {
         return {
           date: new Date(item.date).toLocaleDateString('pt-BR'),
