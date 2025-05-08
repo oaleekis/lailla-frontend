@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID } from '@angular/core';
+import { Component, LOCALE_ID, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,6 +21,7 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import {MatPaginatorModule} from '@angular/material/paginator';
 registerLocaleData(localePt);
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: 'app-financial',
@@ -62,7 +63,8 @@ export class FinancialComponent {
   constructor(
     private dialog: MatDialog,
     private financialService: FinancialService,
-    private categoriesService: CategoriesService
+    private categoriesService: CategoriesService,
+    private snackBarService: SnackBarService,
   ) { }
 
   ngOnInit(){
@@ -110,11 +112,13 @@ export class FinancialComponent {
       if (result) {
         if (mode === 'edit') {
           this.financialService.update(result.id, result).subscribe(() => {
+            this.snackBarService.openSnackBar('Transação atualizada com sucesso!', 'fechar');
             this.fetchFinancial();
           });
           
         } else if (mode === 'create') {
           this.financialService.add(result).subscribe(() => {
+            this.snackBarService.openSnackBar('Transação criada com sucesso!', 'fechar');
             this.fetchFinancial();
           });
         }
@@ -135,6 +139,7 @@ export class FinancialComponent {
     dialogRef.afterClosed().subscribe(confirmed => {      
       if (confirmed.confirm === true) {
         this.financialService.delete(confirmed.element.id).subscribe(() => {
+          this.snackBarService.openSnackBar('Transação excluída com sucesso!', 'fechar');
           this.fetchFinancial();
         });
       }

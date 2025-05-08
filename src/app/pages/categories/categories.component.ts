@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +12,7 @@ import { CategoriesModalComponent } from '../../shared/categories-modal/categori
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { CategoriesService } from '../../services/categories.service';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 
 @Component({
@@ -45,7 +46,8 @@ export class CategoriesComponent {
 
   constructor(
     private dialog: MatDialog,
-    private categoriesService: CategoriesService
+    private categoriesService: CategoriesService,
+    private snackBarService: SnackBarService
   ) { }
 
   ngOnInit() {
@@ -76,11 +78,13 @@ export class CategoriesComponent {
       if (result) {
         if (mode === 'edit') {
           this.categoriesService.update(result.id, result).subscribe(() => {
+            this.snackBarService.openSnackBar('Categoria atualizada com sucesso!', 'fechar');
             this.fetchCategories();
           });
           
         } else if (mode === 'create') {
           this.categoriesService.add(result).subscribe(() => {
+            this.snackBarService.openSnackBar('Categoria criada com sucesso!', 'fechar');
             this.fetchCategories();
           });
         }
@@ -101,6 +105,7 @@ export class CategoriesComponent {
     dialogRef.afterClosed().subscribe(confirmed => {      
       if (confirmed.confirm === true) {
         this.categoriesService.delete(confirmed.element.id).subscribe(() => {
+          this.snackBarService.openSnackBar('Categoria excluída com sucesso!', 'fechar');
           this.fetchCategories();
         });
       }

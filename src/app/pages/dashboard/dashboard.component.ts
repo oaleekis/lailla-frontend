@@ -7,8 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FinancialService } from '../../services/financial.service';
 import { DashboardService } from '../../services/dashboard.service';
 import { BrlPipe } from '../../shared/pipes/brl.pipe';
-
-
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +29,8 @@ export class DashboardComponent {
   constructor(
     private dialog: MatDialog,
     private financialService: FinancialService,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private snackBarService: SnackBarService
   ) { }
 
   ngOnInit() {
@@ -58,6 +58,7 @@ export class DashboardComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
           this.financialService.add(result).subscribe(() => {
+            this.snackBarService.openSnackBar('Transação criada com sucesso!', 'success');
             this.fetchData();
           });
       }
