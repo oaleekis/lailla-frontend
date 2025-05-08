@@ -48,8 +48,9 @@ export class LoginComponent {
           next: () => {
             this.router.navigate(['/dashboard']);
           },
-          error: (error) => {
-            console.error('Login failed', error);
+          error: (error) => {         
+            this.form.get('password')?.setErrors({ invalid: true });
+            this.form.get('email')?.setErrors({ invalid: true });
           }
        }
       );

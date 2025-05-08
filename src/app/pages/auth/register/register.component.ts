@@ -51,7 +51,11 @@ export class RegisterComponent {
             this.router.navigate(['/auth/login']);
           },
           error: (error) => {
-            console.error('Error ao criar conta', error);
+            if (error.status === 409) {
+              this.form.get('email')?.setErrors({ emailExists: true });
+            } else {
+              this.form.get('email')?.setErrors({ invalid: true });
+            }
           }
         });
     
